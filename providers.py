@@ -44,7 +44,7 @@ class Provider:
     def complete(self, messages, schemas):
         if self.name == 'anthropic':
             return self._anthropic(messages, schemas)
-        payload = {'model': self.model, 'messages': messages}
+        payload = {'model': self.model, 'messages': messages, 'max_tokens': int(os.getenv('MAX_TOKENS', '2048'))}
         if schemas:
             payload['tools'] = schemas
         data = post_json(self.url, {'Authorization': f'Bearer {self.key}'}, payload)
